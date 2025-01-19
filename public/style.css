@@ -1,0 +1,77 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #f9f9f9; }
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px; }
+  .main input {
+    width: 170px;
+    height: 30px;
+    border-radius: 5px; }
+  .main button {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer; }
+  .main__add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; }
+  .main__functions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; }
+  .main__sort-button {
+    background-color: #4ea127 !important; }
+  .main .hidden {
+    display: none; }
+  .main__title {
+    margin-top: 30px;
+    margin-bottom: 5px; }
+  .main__users {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; }
+    .main__users-item {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 1px solid #ababab;
+      padding: 10px; }
+      .main__users-item-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px; }
+    .main__users-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px; }
+    .main__users-delete-button {
+      width: 30px !important;
+      height: 30px;
+      background-color: #a72927 !important; }
+    .main__users-update-toggle {
+      background-color: #dbc13e !important; }
+    .main__users-update-button {
+      background-color: #80a123 !important; }
+
+/*# sourceMappingURL=style.css.map */

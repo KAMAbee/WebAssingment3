@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <h1>User List</h1>
+
+    <main class="main">
+        <h2>Add New User</h2>
+        <form class="main__add" action="/users" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="number" name="age" placeholder="Age" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <button type="submit">Add User</button>
+        </form>
+
+        <h2 class="main__title">Users</h2>
+        <div class="main__functions">
+            <form class="main__search" action="/users/search" method="get">
+                <input type="text" name="name" placeholder="Search by username">
+                <button type="submit">Search</button>
+            </form>
+
+            <form class="main__sort" action="/users/sort" method="get">
+                <button class="main__sort-button" type="submit">Sort by Age</button>
+            </form>
+        </div>
+
+        <ul class="main__users">
+            <% if (users.length===0) { %>
+                <li>No users found</li>
+                <% } %>
+
+                    <% users.forEach(user=> { %>
+                        <li class="main__users-item">
+                            <div class="main__users-item-wrap">
+                                <span>
+                                    <%= user.username %> (<%= user.age %>) - <%= user.email %>
+                                </span>
+                                <div class="main__users-actions">
+                                    <!-- Delete User -->
+                                    <form class="main__users-delete" action="/users/<%= user._id %>?_method=DELETE"
+                                        method="post">
+                                        <button class="main__users-delete-button" type="submit">x</button>
+                                    </form>
+                                    <!-- Update Button -->
+                                    <button class="main__users-update-toggle"
+                                        data-user-id="<%= user._id %>">Update</button>
+                                </div>
+                            </div>
+
+                            <!-- Update Form -->
+                            <form class="main__users-update hidden" id="update-form-<%= user._id %>"
+                                action="/users/<%= user._id %>?_method=PUT" method="post">
+                                <input type="text" name="username" placeholder="New Username" required>
+                                <input type="number" name="age" placeholder="New Age" required>
+                                <input type="email" name="email" placeholder="New Email" required>
+                                <button class="main__users-update-button" type="submit">Submit</button>
+                            </form>
+                        </li>
+                        <% }); %>
+        </ul>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const updateButtons = document.querySelectorAll('.main__users-update-toggle');
+
+            updateButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const userId = button.getAttribute('data-user-id');
+                    const updateForm = document.getElementById(`update-form-${userId}`);
+
+                    updateForm.classList.toggle('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

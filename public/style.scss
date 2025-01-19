@@ -1,0 +1,113 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #e8e6e6;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+
+    input {
+        width: 170px;
+        height: 30px;
+        border-radius: 5px;
+    }
+
+    button {
+        width: 100px;
+        height: 30px;
+        border-radius: 5px;
+        background-color: #3498db;
+        color: white;
+        cursor: pointer;
+    }
+
+    &__add {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    &__functions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    &__sort {
+
+        &-button {
+            background-color: #4ea127 !important;
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    &__title{
+        margin-top: 30px;
+        margin-bottom: 5px;
+    }
+
+    &__users {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        &-item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid #ababab;
+            padding: 10px;
+
+            &-wrap {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+            }
+        }
+
+        &-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        &-delete {
+            &-button {
+                width: 30px !important;
+                height: 30px;
+                background-color: #a72927 !important;
+            }
+        }
+
+        &-update {
+            &-toggle {
+                background-color: #dbc13e !important;
+            }
+
+            &-button {
+                background-color: #80a123 !important;
+            }
+        }
+    }
+}
