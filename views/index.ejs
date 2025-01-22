@@ -49,12 +49,10 @@
                                     <%= user.username %> (<%= user.age %>) - <%= user.email %>
                                 </span>
                                 <div class="main__users-actions">
-                                    <!-- Delete User -->
                                     <form class="main__users-delete" action="/users/<%= user._id %>?_method=DELETE"
                                         method="post">
                                         <button class="main__users-delete-button" type="submit">x</button>
                                     </form>
-                                    <!-- Update Button -->
                                     <button class="main__users-update-toggle"
                                         data-user-id="<%= user._id %>">Update</button>
                                 </div>
