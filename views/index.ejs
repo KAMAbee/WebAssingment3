@@ -2,111 +2,125 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users</title>
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
-    <h1>User List</h1>
+  <h1>User List</h1>
 
-    <main class="main">
-        <h2>Add New User</h2>
-        <form class="main__add" action="/users" method="post">
-            <input type="text" name="username" placeholder="Username" required>
-            <input class="main__add-age" type="number" name="age" placeholder="Age" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <button type="submit">Add User</button>
+  <main class="main">
+    <h2>Add New User</h2>
+    <form class="main__add" action="/users" method="post">
+      <input class="main__add-username" type="text" name="username" placeholder="Username" required>
+      <input class="main__add-age" type="number" name="age" placeholder="Age" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <button type="submit">Add User</button>
+    </form>
+
+    <h2 class="main__title">Users</h2>
+    <div class="main__functions">
+      <form class="main__search" action="/users/search" method="get">
+        <input type="text" name="name" placeholder="Search by username">
+        <button type="submit">Search</button>
+      </form>
+
+      <div class="main__sort">
+        <form action="/users/sort" method="get">
+          <button class="main__sort-button" type="submit">Sort by Age (Asc)</button>
         </form>
+        <form action="/users/sort/desc" method="get">
+          <button class="main__sort-button" type="submit">Sort by Age (Desc)</button>
+        </form>
+      </div>
+    </div>
 
-        <h2 class="main__title">Users</h2>
-        <div class="main__functions">
-            <form class="main__search" action="/users/search" method="get">
-                <input type="text" name="name" placeholder="Search by username">
-                <button type="submit">Search</button>
+    <ul class="main__users">
+      <% if (users.length===0) { %>
+      <li>No users found</li>
+      <% } %>
+
+      <% users.forEach(user=> { %>
+      <li class="main__users-item">
+        <div class="main__users-item-wrap">
+          <span>
+            <%= user.username %> (<%= user.age %>) - <%= user.email %>
+          </span>
+          <div class="main__users-actions">
+            <form class="main__users-delete" action="/users/<%= user._id %>?_method=DELETE" method="post">
+              <button class="main__users-delete-button" type="submit">x</button>
             </form>
-
-            <div class="main__sort">
-                <form action="/users/sort" method="get">
-                    <button class="main__sort-button" type="submit">Sort by Age (Asc)</button>
-                </form>
-                <form action="/users/sort/desc" method="get">
-                    <button class="main__sort-button" type="submit">Sort by Age (Desc)</button>
-                </form>
-            </div>
+            <button class="main__users-update-toggle" data-user-id="<%= user._id %>">Update</button>
+          </div>
         </div>
 
-        <ul class="main__users">
-            <% if (users.length===0) { %>
-                <li>No users found</li>
-                <% } %>
+        <!-- Update Form -->
+        <form class="main__users-update hidden" id="update-form-<%= user._id %>" action="/users/<%= user._id %>?_method=PUT" method="post">
+          <input  class="main__users-update-username" type="text" name="username" placeholder="New Username" required>
+          <input class="main__users-update-age" type="number" name="age" placeholder="New Age" required>
+          <input type="email" name="email" placeholder="New Email" required>
+          <button class="main__users-update-button" type="submit">Submit</button>
+        </form>
+      </li>
+      <% }); %>
+    </ul>
+  </main>
 
-                    <% users.forEach(user=> { %>
-                        <li class="main__users-item">
-                            <div class="main__users-item-wrap">
-                                <span>
-                                    <%= user.username %> (<%= user.age %>) - <%= user.email %>
-                                </span>
-                                <div class="main__users-actions">
-                                    <form class="main__users-delete" action="/users/<%= user._id %>?_method=DELETE"
-                                        method="post">
-                                        <button class="main__users-delete-button" type="submit">x</button>
-                                    </form>
-                                    <button class="main__users-update-toggle"
-                                        data-user-id="<%= user._id %>">Update</button>
-                                </div>
-                            </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const addUserForm = document.querySelector('.main__add');
+      const mainAge = document.querySelector(".main__add-age");
+      const mainUsername = document.querySelector(".main__add-username");
+      const updateForms = document.querySelectorAll(".main__users-update");
 
-                            <!-- Update Form -->
-                            <form class="main__users-update hidden" id="update-form-<%= user._id %>"
-                                action="/users/<%= user._id %>?_method=PUT" method="post">
-                                <input type="text" name="username" placeholder="New Username" required>
-                                <input class="main__users-update-age" type="number" name="age" placeholder="New Age"
-                                    required>
-                                <input type="email" name="email" placeholder="New Email" required>
-                                <button class="main__users-update-button" type="submit">Submit</button>
-                            </form>
-                        </li>
-                        <% }); %>
-        </ul>
-    </main>
+      addUserForm.addEventListener('submit', (event) => {
+        if (mainAge.value < 0) {
+          event.preventDefault();
+          alert("Age must be a positive number.");
+        }
+        if (mainAge.value > 170) {
+          event.preventDefault();
+          alert("Age can not be so big.");
+        }
+        if (mainUsername.value.length > 32) {
+          event.preventDefault();
+          alert("Username is too long.");
+        }
+      });
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const addUserForm = document.querySelector('.main__add');
-            const mainAge = document.querySelector(".main__add-age");
-            const updateForms = document.querySelectorAll(".main__users-update");
-
-            addUserForm.addEventListener('submit', (event) => {
-                if (mainAge.value < 0) {
-                    event.preventDefault();
-                    alert("Age must be a positive number.");
-                }
-            });
-
-            updateForms.forEach(form => {
-                const updateAge = form.querySelector('.main__users-update-age');
-                form.addEventListener('submit', (event) => {
-                    if (updateAge.value < 0) {
-                        event.preventDefault();
-                        alert("Age must be a positive number.");
-                    }
-                });
-            });
-
-            const updateButtons = document.querySelectorAll('.main__users-update-toggle');
-
-            updateButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const userId = button.getAttribute('data-user-id');
-                    const updateForm = document.getElementById(`update-form-${userId}`);
-
-                    updateForm.classList.toggle('hidden');
-                });
-            });
+      updateForms.forEach(form => {
+        const updateAge = form.querySelector('.main__users-update-age');
+        const updateUsername = form.querySelector('.main__users-update-username');
+        form.addEventListener('submit', (event) => {
+          if (updateAge.value < 0) {
+            event.preventDefault();
+            alert("Age must be a positive number.");
+          }
+          if (updateAge.value > 170) {
+          event.preventDefault();
+          alert("Age can not be so big.");
+        }
+        if (updateUsername.value.length > 32) {
+          event.preventDefault();
+          alert("Username is too long.");
+        }
         });
-    </script>
+      });
+
+      const updateButtons = document.querySelectorAll('.main__users-update-toggle');
+
+      updateButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const userId = button.getAttribute('data-user-id');
+          const updateForm = document.getElementById(`update-form-${userId}`);
+
+          updateForm.classList.toggle('hidden');
+        });
+      });
+    });
+  </script>
 </body>
 
 </html>
