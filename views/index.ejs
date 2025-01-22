@@ -27,9 +27,14 @@
                 <button type="submit">Search</button>
             </form>
 
-            <form class="main__sort" action="/users/sort" method="get">
-                <button class="main__sort-button" type="submit">Sort by Age</button>
-            </form>
+            <div class="main__sort">
+                <form action="/users/sort" method="get">
+                    <button class="main__sort-button" type="submit">Sort by Age (Asc)</button>
+                </form>
+                <form action="/users/sort/desc" method="get">
+                    <button class="main__sort-button" type="submit">Sort by Age (Desc)</button>
+                </form>
+            </div>
         </div>
 
         <ul class="main__users">
@@ -59,7 +64,8 @@
                             <form class="main__users-update hidden" id="update-form-<%= user._id %>"
                                 action="/users/<%= user._id %>?_method=PUT" method="post">
                                 <input type="text" name="username" placeholder="New Username" required>
-                                <input class="main__users-update-age" type="number" name="age" placeholder="New Age" required>
+                                <input class="main__users-update-age" type="number" name="age" placeholder="New Age"
+                                    required>
                                 <input type="email" name="email" placeholder="New Email" required>
                                 <button class="main__users-update-button" type="submit">Submit</button>
                             </form>
@@ -69,28 +75,28 @@
     </main>
 
     <script>
-        const addUserForm = document.querySelector('.main__add');
-        const mainAge = document.querySelector(".main__add-age");
-        const updateForms = document.querySelectorAll(".main__users-update");
+        document.addEventListener('DOMContentLoaded', () => {
+            const addUserForm = document.querySelector('.main__add');
+            const mainAge = document.querySelector(".main__add-age");
+            const updateForms = document.querySelectorAll(".main__users-update");
 
-        addUserForm.addEventListener('submit', (event) => {
-            if (mainAge.value < 0) {
-                event.preventDefault();
-                alert("Age must be a positive number.");
-            }
-        });
-
-        updateForms.forEach(form => {
-            const updateAge = form.querySelector('.main__users-update-age');
-            form.addEventListener('submit', (event) => {
-                if (updateAge.value < 0) {
+            addUserForm.addEventListener('submit', (event) => {
+                if (mainAge.value < 0) {
                     event.preventDefault();
                     alert("Age must be a positive number.");
                 }
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', () => {
+            updateForms.forEach(form => {
+                const updateAge = form.querySelector('.main__users-update-age');
+                form.addEventListener('submit', (event) => {
+                    if (updateAge.value < 0) {
+                        event.preventDefault();
+                        alert("Age must be a positive number.");
+                    }
+                });
+            });
+
             const updateButtons = document.querySelectorAll('.main__users-update-toggle');
 
             updateButtons.forEach(button => {

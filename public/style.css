@@ -39,7 +39,13 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px; }
+    .main__sort{
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
   .main__sort-button {
+    width: 150px !important;
     background-color: #4ea127 !important; }
   .main .hidden {
     display: none; }

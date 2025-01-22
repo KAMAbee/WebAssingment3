@@ -24,45 +24,52 @@ const UserSchema = new mongoose.Schema({
     email: String,
 });
 
-//add user
+//Define User model
+const User = mongoose.model('User', UserSchema);
+
+//Add user
 app.post('/users', async (req, res) => {
     const user = new User(req.body);
     await user.save();
     res.redirect('/users');
 });
 
-//read all users
+//Read all users
 app.get('/users', async (req, res) => {
     const users = await User.find();
     res.render('index', { users: users });
 });
 
-//delete user
+//Delete user
 app.delete('/users/:id', async (req, res) => {
     await User.findByIdAndDelete(req.params.id);
     res.redirect('/users');
 });
 
-//update user
+//Update user
 app.put('/users/:id', async (req, res) => {
     await User.findByIdAndUpdate(req.params.id, req.body);
     res.redirect('/users');
 });
 
-//search user by name
+//Search user by name
 app.get('/users/search', async (req, res) => {
     const query = req.query.name;
     const users = await User.find({ username: new RegExp(query, 'i') });
     res.render('index', { users: users });
 });
 
-//sort users by age
+//Sort users by age (ascending)
 app.get('/users/sort', async (req, res) => {
     const users = await User.find().sort({ age: 1 });
     res.render('index', { users: users });
 });
 
-const User = mongoose.model('User', UserSchema);
+//Sort users by age (descending)
+app.get('/users/sort/desc', async (req, res) => {
+    const users = await User.find().sort({ age: -1 });
+    res.render('index', { users: users });
+});
 
-const PORT = 3000
-app.listen(PORT, () => console.log(`Server running http://localhost:${PORT}/users`));
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}/users`));
