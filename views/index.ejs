@@ -15,7 +15,7 @@
         <h2>Add New User</h2>
         <form class="main__add" action="/users" method="post">
             <input type="text" name="username" placeholder="Username" required>
-            <input type="number" name="age" placeholder="Age" required>
+            <input class="main__add-age" type="number" name="age" placeholder="Age" required>
             <input type="email" name="email" placeholder="Email" required>
             <button type="submit">Add User</button>
         </form>
@@ -59,7 +59,7 @@
                             <form class="main__users-update hidden" id="update-form-<%= user._id %>"
                                 action="/users/<%= user._id %>?_method=PUT" method="post">
                                 <input type="text" name="username" placeholder="New Username" required>
-                                <input type="number" name="age" placeholder="New Age" required>
+                                <input class="main__users-update-age" type="number" name="age" placeholder="New Age" required>
                                 <input type="email" name="email" placeholder="New Email" required>
                                 <button class="main__users-update-button" type="submit">Submit</button>
                             </form>
@@ -69,6 +69,27 @@
     </main>
 
     <script>
+        const addUserForm = document.querySelector('.main__add');
+        const mainAge = document.querySelector(".main__add-age");
+        const updateForms = document.querySelectorAll(".main__users-update");
+
+        addUserForm.addEventListener('submit', (event) => {
+            if (mainAge.value < 0) {
+                event.preventDefault();
+                alert("Age must be a positive number.");
+            }
+        });
+
+        updateForms.forEach(form => {
+            const updateAge = form.querySelector('.main__users-update-age');
+            form.addEventListener('submit', (event) => {
+                if (updateAge.value < 0) {
+                    event.preventDefault();
+                    alert("Age must be a positive number.");
+                }
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const updateButtons = document.querySelectorAll('.main__users-update-toggle');
 
